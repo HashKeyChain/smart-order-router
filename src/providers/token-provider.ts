@@ -743,7 +743,7 @@ export const USDC_WORLDCHAIN = new Token(
 export const USDT_HASHKEYCHAIN_TESTNET = new Token(
   ChainId.HASHKEY_TESTNET,
   '0x98B6173A8B7DFc52ce8bc88f1184a918A1CCaa4F',
-  6,
+  18,
   'USDT',
   'Tether USD'
 );

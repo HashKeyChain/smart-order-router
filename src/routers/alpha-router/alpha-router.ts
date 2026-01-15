@@ -733,6 +733,51 @@ export class AlphaRouter
             }
           );
           break;
+        case ChainId.HASHKEY_TESTNET:
+          // HashKeyChain is OP Stack based; quotes may require higher per-call gas
+          // on QuoterV2 depending on tick crossings.
+          this.onChainQuoteProvider = new OnChainQuoteProvider(
+            chainId,
+            provider,
+            this.multicall2Provider,
+            {
+              retries: 2,
+              minTimeout: 100,
+              maxTimeout: 1000,
+            },
+            (_) => {
+              return {
+                // Observed QuoterV2 `gasEstimate` for WHSK/USDT is ~2.82M; use ~1.3x headroom.
+                // Keep `multicallChunk * gasLimitPerCall` in a reasonable range for RPC call limits.
+                multicallChunk: 30,
+                gasLimitPerCall: 3_700_000,
+                quoteMinSuccessRate: 0.1,
+              };
+            },
+            (_) => {
+              return {
+                gasLimitOverride: 5_000_000,
+                multicallChunk: 20,
+              };
+            },
+            (_) => {
+              return {
+                gasLimitOverride: 5_000_000,
+                multicallChunk: 20,
+              };
+            },
+            (_) => {
+              return {
+                baseBlockOffset: -10,
+                rollback: {
+                  enabled: true,
+                  attemptsBeforeRollback: 1,
+                  rollbackBlockOffset: -10,
+                },
+              };
+            }
+          );
+          break;
         case ChainId.BASE:
         case ChainId.BLAST:
         case ChainId.ZORA:
