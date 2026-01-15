@@ -12,6 +12,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.OPTIMISM,
   ChainId.OPTIMISM_GOERLI,
   ChainId.OPTIMISM_SEPOLIA,
+  ChainId.HASHKEY_TESTNET,
   ChainId.ARBITRUM_ONE,
   ChainId.ARBITRUM_GOERLI,
   ChainId.ARBITRUM_SEPOLIA,
@@ -97,6 +98,7 @@ export const HAS_L1_FEE = [
   ChainId.OPTIMISM,
   ChainId.OPTIMISM_GOERLI,
   ChainId.OPTIMISM_SEPOLIA,
+  ChainId.HASHKEY_TESTNET,
   ChainId.ARBITRUM_ONE,
   ChainId.ARBITRUM_GOERLI,
   ChainId.ARBITRUM_SEPOLIA,
@@ -138,6 +140,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.OPTIMISM_GOERLI;
     case 11155420:
       return ChainId.OPTIMISM_SEPOLIA;
+    case 133:
+      return ChainId.HASHKEY_TESTNET;
     case 42161:
       return ChainId.ARBITRUM_ONE;
     case 421613:
@@ -196,6 +200,7 @@ export enum ChainName {
   OPTIMISM = 'optimism-mainnet',
   OPTIMISM_GOERLI = 'optimism-goerli',
   OPTIMISM_SEPOLIA = 'optimism-sepolia',
+  HASHKEYCHAIN_TESTNET = 'hashkeychain-testnet',
   ARBITRUM_ONE = 'arbitrum-mainnet',
   ARBITRUM_GOERLI = 'arbitrum-goerli',
   ARBITRUM_SEPOLIA = 'arbitrum-sepolia',
@@ -225,6 +230,7 @@ export enum ChainName {
 export enum NativeCurrencyName {
   // Strings match input for CLI
   ETHER = 'ETH',
+  HSK = 'HSK',
   MATIC = 'MATIC',
   CELO = 'CELO',
   GNOSIS = 'XDAI',
@@ -264,6 +270,10 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
   [ChainId.OPTIMISM_SEPOLIA]: [
     'ETH',
     'ETHER',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  ],
+  [ChainId.HASHKEY_TESTNET]: [
+    'HSK',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
   [ChainId.ARBITRUM_ONE]: [
@@ -365,6 +375,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.OPTIMISM]: NativeCurrencyName.ETHER,
   [ChainId.OPTIMISM_GOERLI]: NativeCurrencyName.ETHER,
   [ChainId.OPTIMISM_SEPOLIA]: NativeCurrencyName.ETHER,
+  [ChainId.HASHKEY_TESTNET]: NativeCurrencyName.HSK,
   [ChainId.ARBITRUM_ONE]: NativeCurrencyName.ETHER,
   [ChainId.ARBITRUM_GOERLI]: NativeCurrencyName.ETHER,
   [ChainId.ARBITRUM_SEPOLIA]: NativeCurrencyName.ETHER,
@@ -406,6 +417,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.OPTIMISM_GOERLI;
     case 11155420:
       return ChainName.OPTIMISM_SEPOLIA;
+    case 133:
+      return ChainName.HASHKEYCHAIN_TESTNET;
     case 42161:
       return ChainName.ARBITRUM_ONE;
     case 421613:
@@ -475,6 +488,8 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
       return process.env.JSON_RPC_PROVIDER_OPTIMISM_GOERLI!;
     case ChainId.OPTIMISM_SEPOLIA:
       return process.env.JSON_RPC_PROVIDER_OPTIMISM_SEPOLIA!;
+    case ChainId.HASHKEY_TESTNET:
+      return process.env.JSON_RPC_PROVIDER_HASHKEYCHAIN_TESTNET!;
     case ChainId.ARBITRUM_ONE:
       return process.env.JSON_RPC_PROVIDER_ARBITRUM_ONE!;
     case ChainId.ARBITRUM_GOERLI:
@@ -571,6 +586,13 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     18,
     'WETH',
     'Wrapped Ether'
+  ),
+  [ChainId.HASHKEY_TESTNET]: new Token(
+    ChainId.HASHKEY_TESTNET,
+    '0xCA8aAceEC5Db1e91B9Ed3a344bA026c4a2B3ebF6',
+    18,
+    'WHSK',
+    'Wrapped HSK'
   ),
   [ChainId.ARBITRUM_ONE]: new Token(
     ChainId.ARBITRUM_ONE,
@@ -851,6 +873,32 @@ class BnbNativeCurrency extends NativeCurrency {
   }
 }
 
+function isHashKeyChain(
+  chainId: number
+): chainId is ChainId.HASHKEY_TESTNET {
+  return chainId === ChainId.HASHKEY_TESTNET;
+}
+
+class HashKeyNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+
+  get wrapped(): Token {
+    if (!isHashKeyChain(this.chainId)) throw new Error('Not hashkeychain');
+    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    if (nativeCurrency) {
+      return nativeCurrency;
+    }
+    throw new Error(`Does not support this chain ${this.chainId}`);
+  }
+
+  public constructor(chainId: number) {
+    if (!isHashKeyChain(chainId)) throw new Error('Not hashkeychain');
+    super(chainId, 18, 'HSK', 'HSK');
+  }
+}
+
 function isMoonbeam(chainId: number): chainId is ChainId.MOONBEAM {
   return chainId === ChainId.MOONBEAM;
 }
@@ -958,6 +1006,8 @@ export function nativeOnChain(chainId: number): NativeCurrency {
     cachedNativeCurrency[chainId] = new MoonbeamNativeCurrency(chainId);
   } else if (isBnb(chainId)) {
     cachedNativeCurrency[chainId] = new BnbNativeCurrency(chainId);
+  } else if (isHashKeyChain(chainId)) {
+    cachedNativeCurrency[chainId] = new HashKeyNativeCurrency(chainId);
   } else if (isAvax(chainId)) {
     cachedNativeCurrency[chainId] = new AvalancheNativeCurrency(chainId);
   } else if (isMonad(chainId)) {

@@ -9,6 +9,7 @@ export const DEFAULT_BLOCKS_TO_LIVE: { [chain in ChainId]: number } = {
   [ChainId.OPTIMISM]: 1800,
   [ChainId.OPTIMISM_GOERLI]: 1800,
   [ChainId.OPTIMISM_SEPOLIA]: 1800,
+  [ChainId.HASHKEY_TESTNET]: 1800,
   [ChainId.BASE]: 1800,
   [ChainId.ZORA]: 1800,
   [ChainId.BASE_GOERLI]: 1800,

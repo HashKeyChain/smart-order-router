@@ -42,6 +42,8 @@ const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
     'https://api.thegraph.com/subgraphs/name/ianlapham/optimism-post-regenesis',
   // todo: add once subgraph is live
   [ChainId.OPTIMISM_SEPOLIA]: '',
+  [ChainId.HASHKEY_TESTNET]:
+    'https://graphnode-testnet.hashkeychain.net/subgraphs/name/uniswap-v3/hsk-test',
   [ChainId.ARBITRUM_ONE]:
     'https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum-minimal',
   // todo: add once subgraph is live

@@ -29,6 +29,8 @@ export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.OPTIMISM_GOERLI].v3CoreFactoryAddress,
   [ChainId.OPTIMISM_SEPOLIA]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.OPTIMISM_SEPOLIA].v3CoreFactoryAddress,
+  [ChainId.HASHKEY_TESTNET]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.HASHKEY_TESTNET].v3CoreFactoryAddress,
   [ChainId.SEPOLIA]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.SEPOLIA].v3CoreFactoryAddress,
   [ChainId.ARBITRUM_GOERLI]:
@@ -103,6 +105,8 @@ export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
   [ChainId.CELO]: '0x5e55C9e631FAE526cd4B0526C4818D6e0a9eF0e3',
   [ChainId.CELO_ALFAJORES]: '0x5e55C9e631FAE526cd4B0526C4818D6e0a9eF0e3',
   [ChainId.OPTIMISM_SEPOLIA]: '0x5e55C9e631FAE526cd4B0526C4818D6e0a9eF0e3',
+  [ChainId.HASHKEY_TESTNET]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.HASHKEY_TESTNET].quoterAddress,
   [ChainId.SEPOLIA]: '0xf0c802dcb0cf1c4f7b953756b49d940eed190221',
   [ChainId.ARBITRUM_SEPOLIA]: '0x5e55C9e631FAE526cd4B0526C4818D6e0a9eF0e3',
   [ChainId.BNB]: '0x5e55C9e631FAE526cd4B0526C4818D6e0a9eF0e3',
@@ -195,6 +199,8 @@ export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.OPTIMISM_GOERLI].multicallAddress,
   [ChainId.OPTIMISM_SEPOLIA]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.OPTIMISM_SEPOLIA].multicallAddress,
+  [ChainId.HASHKEY_TESTNET]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.HASHKEY_TESTNET].multicallAddress,
   [ChainId.SEPOLIA]: CHAIN_TO_ADDRESSES_MAP[ChainId.SEPOLIA].multicallAddress,
   [ChainId.ARBITRUM_GOERLI]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.ARBITRUM_GOERLI].multicallAddress,
@@ -292,6 +298,7 @@ export const WETH9: {
     | ChainId.MOONBEAM
     | ChainId.BNB
     | ChainId.AVALANCHE
+    | ChainId.HASHKEY_TESTNET
     | ChainId.MONAD_TESTNET
     | ChainId.MONAD
     // TODO: remove ROOTSTOCK once we support both at the routing level

@@ -4,6 +4,7 @@ export const opStackChains = [
   ChainId.OPTIMISM,
   ChainId.OPTIMISM_GOERLI,
   ChainId.OPTIMISM_SEPOLIA,
+  ChainId.HASHKEY_TESTNET,
   ChainId.BASE,
   ChainId.BASE_GOERLI,
   ChainId.BLAST,

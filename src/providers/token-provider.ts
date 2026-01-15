@@ -740,6 +740,14 @@ export const USDC_WORLDCHAIN = new Token(
   'Bridged USDC (world-chain-mainnet)'
 );
 
+export const USDT_HASHKEYCHAIN_TESTNET = new Token(
+  ChainId.HASHKEY_TESTNET,
+  '0x98B6173A8B7DFc52ce8bc88f1184a918A1CCaa4F',
+  6,
+  'USDT',
+  'Tether USD'
+);
+
 export const USDT_MONAD_TESTNET = new Token(
   ChainId.MONAD_TESTNET,
   '0xfBC2D240A5eD44231AcA3A9e9066bc4b33f01149',
@@ -1071,6 +1079,8 @@ export const USDT_ON = (chainId: ChainId): Token => {
       return USDT_OPTIMISM_GOERLI;
     case ChainId.OPTIMISM_SEPOLIA:
       return USDT_OPTIMISM_SEPOLIA;
+    case ChainId.HASHKEY_TESTNET:
+      return USDT_HASHKEYCHAIN_TESTNET;
     case ChainId.ARBITRUM_ONE:
       return USDT_ARBITRUM;
     case ChainId.BNB:

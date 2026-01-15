@@ -67,6 +67,16 @@ export const V4_ETH_WETH_FAKE_POOL: { [chainId in ChainId]: V4Pool } = {
     0,
     0
   ),
+  [ChainId.HASHKEY_TESTNET]: new V4Pool(
+    nativeOnChain(ChainId.HASHKEY_TESTNET),
+    nativeOnChain(ChainId.HASHKEY_TESTNET).wrapped,
+    0,
+    FAKE_TICK_SPACING,
+    ADDRESS_ZERO,
+    79228162514264337593543950336,
+    0,
+    0
+  ),
   [ChainId.ARBITRUM_ONE]: new V4Pool(
     nativeOnChain(ChainId.ARBITRUM_ONE),
     nativeOnChain(ChainId.ARBITRUM_ONE).wrapped,
