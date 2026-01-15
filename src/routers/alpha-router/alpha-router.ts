@@ -747,8 +747,6 @@ export class AlphaRouter
             },
             (_) => {
               return {
-                // Observed QuoterV2 `gasEstimate` for WHSK/USDT is ~2.82M; use ~1.3x headroom.
-                // Keep `multicallChunk * gasLimitPerCall` in a reasonable range for RPC call limits.
                 multicallChunk: 30,
                 gasLimitPerCall: 3_700_000,
                 quoteMinSuccessRate: 0.1,
