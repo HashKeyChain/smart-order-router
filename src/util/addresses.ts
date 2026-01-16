@@ -72,6 +72,9 @@ export const QUOTER_V2_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.OPTIMISM_GOERLI].quoterAddress,
   [ChainId.OPTIMISM_SEPOLIA]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.OPTIMISM_SEPOLIA].quoterAddress,
+  // HashKeyChain uses a custom QuoterV2 deployment; keep both legacy and new maps populated for compatibility.
+  [ChainId.HASHKEY_TESTNET]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.HASHKEY_TESTNET].quoterAddress,
   [ChainId.SEPOLIA]: CHAIN_TO_ADDRESSES_MAP[ChainId.SEPOLIA].quoterAddress,
   [ChainId.ARBITRUM_GOERLI]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.ARBITRUM_GOERLI].quoterAddress,
